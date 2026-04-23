@@ -68,7 +68,7 @@ CipherDen aims to evolve into a collaborative coding arena where developers not 
 1. Clone the repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Abracadaniel1/cipherden.git
 cd CipherDen_Project
 ```
 
