@@ -1,0 +1,166 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile - CipherDen
+{%endblock %}
+
+{% block content %}
+    <!-- User profile Card -->
+    <section class="profile-card">
+        <!-- Username -->
+        <h2>{{ user.username }}</h2>
+        <!-- Bio and skills -->
+        <div class="profile-bio">
+            <p><strong>About:</strong> {{ user.bio or "No description yet." }}</p>
+            <!-- Skills list -->
+            {% if user.skills %}
+                <div class="skills-wrapper">
+                    {% for skill in user.skills.split(',') %}
+                        <span class="skill-tag">{{ skill.strip() }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p><strong>Skills:</strong> Not specified.</p>
+            {% endif %}
+        </div>
+        <!-- Resume active coding session -->
+        {% if own_profile and active_session %}
+        <div class="resume-session">
+            <a href="/session/{{ session_id }}" class="btn">💻 Resume Coding Session</a>
+        </div>
+        {% endif %}
+        <!-- Availability status -->
+        <p>
+            Status:
+            <span class="dot {% if user.offers_status == 1 %}on{% else %}off{% endif %}"></span>
+            {{ "Available" if user.offers_status else "Not available" }}
+        </p>
+        <!-- Basic stats -->
+        <div class="profile-stats">
+            <span class="badge idea">Ideas: {{ stats.total_ideas }}</span>
+            <span class="badge completed">Completed: {{ stats.active_ideas}}</span>
+        </div>
+        <!-- Pending collaboration requests -->
+        {% if own_profile and pending_count > 0 %}
+            <hr>
+            <div class="notif-banner">
+                {{ pending_count }} request waiting
+                <a href="/inbox">View</a>
+            </div>
+        {% endif %}
+        <!-- Suggested developer matches -->
+        {% if suggested_users %}
+            <hr>
+            <h3>Suggested dev matches</h3>
+            <ul class="match-list">
+                {% for suggested in suggested_users %}
+                    <li class="match-item">
+                        <!-- Availability indicator -->
+                        <span class="dot on"></span>
+                        <!-- Suggested user link -->
+                        <a href="/user/{{ suggested.username }}">
+                            {{ suggested.username }}
+                        </a>
+                        <!-- Active ideas count -->
+                        <small>
+                            {{ suggested.active_ideas }} active idea{{ 's' if suggested.active_ideas != 1 }}
+                        </small>
+
+                        <!-- Quick ask button -->
+                        <form action="/ask/{{ suggested.username }}" method="POST">
+                            <button class="ask-btn" type="submit">
+                                ASK
+                            </button>
+                        </form>
+                        <!-- Show matched skill when available -->
+                        {% if first_skill %}
+                            <div class="match-skill">
+                                Matched on: {{ first_skill }}
+                            </div>
+                        {% endif %}
+
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        <!-- Profile actions: toggle availability for owner, availability badge for others -->
+        <div class="profile-actions">
+            {% if own_profile %}
+                <form action="/toggle-offer" method="POST">
+                    <button type="submit">
+                        {% if user.offers_status == 1 %}
+                            Disable offer
+                        {% else %}
+                            Offer time
+                        {% endif %}
+                    </button>
+                </form>
+            {% else %}
+                {% if user.offers_status %}
+                    <p class="badge in_progress">Available for a 30 minute session</p>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <hr>
+        <!-- User's ideas list -->
+        <h3>Ideas</h3>
+        {% for idea in ideas %}
+            <a href="/ideas/{{ idea.id }}" class="idea-container">
+                <h4>
+                    {{ idea.title }}
+                    <span class="badge {{ idea.status }}">{{ idea.status }}</span>
+                </h4>
+                <small>
+                    {{ idea.votes }} votes
+                </small>
+            </a>
+        {% else %}
+            <p>No Ideas yet. Start building something 🚀</p>
+        {% endfor %}
+        <!-- Owner-only profile editor and account actions -->
+        {% if own_profile %}
+        <hr>
+        <!-- Edit button -->
+        <button id="edit-profile-btn">Edit Profile</button>
+        <!-- Edit panel -->
+        <div id="edit-profile-panel">
+            <h3>Edit Profile Info</h3>
+            <form method="POST" action="/update-profile">
+                <textarea name="bio" placeholder="Short bio...">{{ user.bio }}</textarea>
+                <input type="text" name="skills" placeholder="Skills (e.g. Python, Flask)" value="{{ user.skills }}">
+                <button type="submit">Save profile</button>
+            </form>
+
+            <h3>Change username</h3>
+            <form method="POST" action="{{ url_for('profile.change_username') }}">
+                <input type="text" name="username" placeholder="New username">
+                <button type="submit">Update username</button>
+            </form>
+
+            <h3>Change Password</h3>
+            <form method="POST" action="{{ url_for('profile.change_password') }}">
+                <input type="password" name="current_password" placeholder="Current password">
+                <input type="password" name="new_password" placeholder="New password">
+                <input type="password" name="confirm_password" placeholder="Confirm password">
+                <button type="submit">Update Password</button>
+            </form>
+            <button id="close-profile-panel">
+                Close
+            </button>
+        </div>
+
+        <hr>
+        <!-- Delete account -->
+        <h3>Delete Account</h3>
+        <form method="POST"
+                action="{{ url_for('profile.delete_account') }}"
+                onsubmit="return confirm('Are you sure you want to delete your account? This will remove all your ideas, sessions and data.')">
+            <button class="danger-btn">
+                Delete Account
+            </button>
+        </form>
+        {% endif %}
+    </section>
+{% endblock %}

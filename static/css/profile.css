@@ -1,0 +1,75 @@
+/* Profile Card */
+.profile-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Profile statistics */
+.profile-stats {
+    display: flex;
+    gap: 1.5rem;
+    font-weight: bold;
+    color: var(--accent);
+    margin: 0.5rem 0;
+}
+
+/* Profile actions area */
+.profile-actions {
+    margin: 1rem 0;
+}
+
+.profile-actions form {
+    display: inline-block;
+}
+
+/* Edit profile panel */
+#edit-profile-panel {
+    background: var(--card-bg);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+    transform: translateY(-10px);
+    will-change: max-height, opacity;
+}
+
+#edit-profile-panel.open {
+    max-height: 700px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Bio and skills */
+.profile-bio {
+    margin: 1rem 0;
+    font-size: 0.95rem;
+}
+
+.profile-bio strong {
+    color: var(--accent);
+}
+
+/* Individual skill tag styling */
+.skills-wrapper {
+    margin-top: 0.5rem;
+}
+
+.skill-tag {
+    display: inline-block;
+    background: var(--bg);
+    padding: 4px 8px;
+    border-radius: 10px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+    font-size: 0.75rem;
+}
+
+/* Match skill indicator */
+.match-skill {
+    font-size: 0.75rem;
+    color: var(--accent);
+    opacity: 0.8;
+    cursor: default;
+}

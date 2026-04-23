@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Session - CipherDen
+{% endblock %}
+
+{% block head %}
+    <!-- CodeMirror for in-browser editing and Socket.Io for realtime collaboration -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.css">
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5/mode/python/python.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <h2>Dev Session</h2>
+    <!-- Show session end time when closed -->
+    {% if dev_session.status == "closed" %}
+        <p style="color: red;">Session ended at {{ dev_session.ended_at }}</p>
+    {% endif %}
+
+    <!-- Close session button -->
+    {% if dev_session.status == "active" %}
+    <form method="POST" action="{{ url_for('session.close_session', session_id=dev_session.id) }}">
+        <button>Close Session</button>
+    </form>
+    {% endif %}
+    <!-- Editor textarea -->
+    <textarea
+        id="editor"
+        data-session="{{ dev_session.id }}"
+        {% if dev_session.status == "closed" %} disabled {% endif %}
+        >{{ dev_session.code }}</textarea>
+
+    {% if dev_session.status == "active" %}
+    <!-- Controls available during an active session -->
+    <button id="run-btn">Run</button>
+    <button id="download-btn">Download Code</button>
+
+    <div class="session-bottom">
+        <!-- Console output area -->
+        <div class="console-wrapper">
+            <h3>Console</h3>
+            <pre id="console"></pre>
+        </div>
+        <!-- Chat area with typing indicator -->
+        <div class="chat-wrapper">
+            <h3>Chat</h3>
+            <div id="chat-box">
+                <div id="typing-indicator" class="typing-indicator"></div>
+            </div>
+            <input id="chat-input" placeholder="Type a message..." style="width: 100%;">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+    <!-- Expose current username for client-side scripts -->
+    <script>
+        const CURRENT_USERNAME = "{{ session.username }}";
+    </script>
+    <!-- Session-specific client logic -->
+    <script src="{{ url_for('static', filename='session.js') }}"></script>
+{% endblock %}

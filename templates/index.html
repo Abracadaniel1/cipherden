@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Homepage - CipherDen
+{% endblock %}
+
+{% block content %}
+    <!-- Main Layout: ideas list + sidebar -->
+    <div class="main-layout">
+        <!-- Left column: list of ideas -->
+        <div class="ideas-column">
+            <h2>Ideas</h2>
+            <!-- Sorting Controls -->
+            <div class="sort-links">
+                Sort by:
+                <a href="/?sort=recent">Recent</a> |
+                <a href="/?sort=top">Top</a>
+            </div>
+            <!-- Loop through all ideas -->
+            {% for idea in ideas %}
+                <a href="/ideas/{{ idea.id }}" class="idea-card-link">
+                    <div class="idea-card">
+                        <!-- Idea title + popularity badge -->
+                        <h3>
+                            <h3>{{ idea.title }}</h3>
+                            {% if idea.votes >= 5  %}
+                                <span class="badge {{ idea.status }}">🔥 Popular Idea!</span>
+                            {% endif %}
+                        </h3>
+                        <!-- Short description -->
+                        <p>{{ idea.description }}</p>
+                        <!-- Progress bar -->
+                        <div class="progress-display">
+                            <div class="progress-track">
+                                <div class="progress-fill" data-progress="{{ idea.progress }}"></div>
+                            </div>
+                            <span>{{ idea.progress }}%</span>
+                        </div>
+                        <!-- Metadata -->
+                        <small>
+                            by {{ idea.username }} |
+                            votes: {{ idea.votes}} |
+                            submitted on {{ idea.created_at }}
+                        </small>
+                    </div>
+                </a>
+            {% else %}
+                <p>No ideas yet.</p>
+            {% endfor %}
+        </div>
+        
+        <!-- Right column: available developers -->
+        <aside class="sidebar">
+            <h3>Dev Available Now</h3>
+            <ul class="available-users">
+                <!-- Loop through available users -->
+                {% for user in available_users %}
+                    <li class="helper">
+                        <!-- Availability indicator -->
+                        <span class="dot {% if user.offers_status == 1 %}on{% else %}off{% endif %}"></span>
+                        <a href="/user/{{ user.username }}">{{ user.username }}</a>
+
+                        <!-- Ask button only if user is available -->
+                        {% if user.offers_status %}
+                        <form action="/ask/{{ user.username }}" method="post">
+                            <button class="ask-btn">ASK</button>
+                        </form>
+                        {% endif %}
+                    </li>
+                {% else %}
+                    <li>None available at the moment.</li>
+                {% endfor %}
+            </ul>
+        </aside>
+    </div>
+{% endblock %}

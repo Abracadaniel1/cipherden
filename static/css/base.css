@@ -1,0 +1,109 @@
+/* Theme Variables */
+:root {
+    --bg: #f3f6f8;
+    --text: #0b0b0b;
+    --card-bg: #ffffff;
+    --accent: #00b37e;
+    --accent-hover: #016849;
+    --border: #ddd;
+}
+
+/* Global reset and Box model */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Document-level Behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Body typography and page background */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Button defaults */
+button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Darker accent on hover */
+button:hover {
+    background: color-mix(in srgb, var(--accent), black 20%);
+}
+
+/* Pressed State */
+button:active {
+    transform: scale(0.97);
+}
+
+/* Form Controls */
+form input, form textarea, form select, form button {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.7rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* Ensure form buttons follow primary button style */
+form button {
+    background: var(--accent);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+form button:hover {
+    background: color-mix(in srgb, var(--accent), black 20%);
+}
+
+/* Login Container */
+.login-container {
+    max-width: 400px;
+    margin: 3rem auto;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Password rules checklist */
+#password-rules {
+    font-size: 0.85rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    padding-left: 0;
+}
+
+#password-rules li {
+    list-style: none;
+    color: red;
+    overflow: hidden;
+    max-height: 20px;
+    opacity: 1;
+    transition: 
+        opacity 0.3s ease,
+        max-height 0.3s ease;
+}
+
+/* Horizontal Rule */
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 1rem 0;
+}

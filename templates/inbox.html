@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Inbox - CipherDen
+{% endblock %}
+
+{% block content %}
+    <!-- Container for all incoming and recent dev sync requests -->
+    <div class="idea-card">
+        <h2>Dev Sync Requests</h2>
+        <ul class="request-list">
+            <!-- Pending collaboration requests -->
+            {% for req in requests %}
+            <li>
+                {{ req.from_username }} asked for a sync on {{ req.created_at }}
+                <!-- Accept / decline actions -->
+                <form action="/requests/{{ req.id }}/respond" method="post">
+                    <button name="action" value="accept">Accept</button>
+                    <button name="action" value="decline">Decline</button>
+                </form>
+            </li>
+            {% else %}
+                <li>No pending requests.</li>
+            {% endfor %}
+            <!-- Recently accepted -->
+            {% for accepted in accepted_req %}
+                <li>
+                    Synced with <strong>{{ accepted.from_username }}</strong><br>
+                </li>
+            {% else %}
+                <li>no requests accepted</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

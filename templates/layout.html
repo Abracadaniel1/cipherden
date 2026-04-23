@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Global Stylesheet -->
+        <link rel="stylesheet" href="/static/css/base.css">
+        <link rel="stylesheet" href="/static/css/layout.css">
+        <link rel="stylesheet" href="/static/css/components.css">
+        <link rel="stylesheet" href="/static/css/profile.css">
+        <link rel="stylesheet" href="/static/css/session.css">
+        <link rel="stylesheet" href="/static/css/theme.css">
+        <!-- Favicon -->
+        <link rel="icon" href="/static/favicon/cipherDenIcon.ico">
+        <!-- Optional extra head content -->
+        {% block head %}{% endblock %}
+        <!-- Page Title -->
+        <title>{% block title %}CipherDen - Idea Hub{% endblock %}</title>
+    </head>
+
+    <body>
+        <!-- Top navigator bar -->
+        <nav>
+            <div class="nav-left">
+                <img class="theme-img" src="/static/img/Light.PNG">
+                <a href="/" class="logo">Cipher<strong>Den</strong></a>
+                <span class="tagline"></span>
+            </div>
+            <div class="nav-right">
+                {% if session.user_id %}
+                    <!-- Logged-in navigation -->
+                    <a href="/user/{{ session.username }}">
+                        Logged as {{ session.username }}
+                    </a> |
+                    <a href="/">Explore</a>
+                    <a href="/ideas/new">New Proposal</a>
+                    <button id="theme-toggle">Theme</button>
+                    <a href="/logout" id="logout-link">Logout</a>
+                {% else %}
+                    <!-- Guest navigation -->
+                    <a href="/login">Login</a>
+                    <a href="/register">Register</a>
+                {% endif %}
+            </div>
+        </nav>
+        
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for msg in messages %}
+                        <li>{{ msg }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <!-- Main page content -->
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <!-- Global Script-->
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <!-- Page-specification scripts -->
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

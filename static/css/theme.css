@@ -1,0 +1,30 @@
+/* Fluo Mode (Dark Neon Theme) */
+body.fluo-mode {
+    --bg: #0d0f12;
+    --text: #a8ff60;
+    --card-bg: #13181c;
+    --accent: #61dafb;
+    --border: #19d0ff;
+    --flash-bg: #1a1a1a;
+    --flash-border: #39ff14;
+}
+
+/* Sidebar available users (neon variant) */
+body.fluo-mode .available-users li a {
+    background: #0e2a3a;
+    color: #61dafb;
+}
+
+body.fluo-mode .available-users li a:hover {
+    background: #15506e;
+}
+
+/* Sidebar note text color */
+body.fluo-mode .sidebar-note {
+    color: #a8ff60;
+}
+
+/* Theme icon swap (light -> dark) */
+body.fluo-mode .theme-img {
+    content: url("/static/img/Dark.PNG");
+}

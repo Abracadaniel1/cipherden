@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ idea.title }} - CipherDen
+{% endblock %}
+
+{% block content %}
+    <!-- Idea header: title, description, category, status -->
+    <div class="idea-meta">
+        <h2>{{ idea.title }}</h2>
+        <p>{{ idea.description }}</p>
+        <p>
+            <strong>Category:</strong> {{idea.category }} <br>
+            <strong>Status:</strong>
+            {% if idea.status == "idea" %}
+                Idea 
+            {% elif idea.status == "in_progress" %}
+                In progress
+            {% elif idea.status == "completed" %}
+                Completed 
+            {% endif %}
+        </p>
+        
+        <!-- Progress Bar -->
+        <div class="progress-display">
+            <div class="progress-track">
+                <div class="progress-fill" data-progress="{{ idea.progress }}"></div>
+            </div>
+            <span>{{ idea.progress }}%</span>
+        </div>
+        <!-- Author + vote count -->
+        <p class="user-details">
+            <a href="/user/{{ idea.username }}">{{ idea.username }}</a>  |
+            {{ idea.votes }} votes
+        </p>
+    </div>
+
+    <!-- Voting + progress update actions -->
+    <div class="idea-actions">
+        {% if user_vote %}
+            <p class="voted-msg">You already voted for this idea</p>
+        {% else %}
+            <form action="/ideas/{{ idea.id }}/vote" method="POST">
+                <button type="submit">Upvote</button>
+            </form>
+        {% endif %}
+        
+        <!-- Progress Slider (only for idea owner and not completed) -->
+        {% if session.user_id == idea.user_id and idea.progress < 100 %}
+            <div>
+                <form action="/ideas/{{ idea.id }}/edit"
+                    method="POST"
+                    class="progress-form">
+                    <input type="range"
+                        name="progress"
+                        min="0"
+                        max="100"
+                        value="{{ idea.progress }}"
+                        class="progress-bar">
+                    <button type="submit">Update progress</button>
+                </form>
+            </div>
+        {% endif %}
+        
+        <!-- Delete button (only for idea owner and only when completed) -->
+        {% if session.user_id == idea.user_id and idea.progress == 100 %}
+        <hr>
+        <form method="POST"
+            action="{{ url_for('ideas.delete_idea', idea_id=idea.id) }}"
+            onsubmit="return confirm('Delete this completed idea?')">
+            <button class="danger-btn">
+                Delete idea
+            </button>
+        </form>
+        {% endif %}
+    </div>
+
+    <hr>
+    <!-- Comments section -->
+    <div class="comments">
+        <h3>Comments</h3>
+        <div id="comments-list">
+            {% for comment in comments %}
+                <div class="comment">
+                    <strong>{{ comment.username }}</strong> <br>
+                    {{ comment.content}}
+                </div>
+                <hr>
+                <!-- Delete button only for comment owner -->
+                {% if comment.user_id == session.user_id %}
+                    <form action="/comments/{{ comment.id }}/delete"
+                        method="POST"
+                        onsubmit="return confirm('Delete comment?')">
+                        <button type="submit">Delete</button>
+                    </form>
+                {% endif %}
+            {% else %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <!-- Add new comment -->
+    <h4>Add a comment</h4>
+    <form id="comment-form" action="/ideas/{{ idea.id }}/comment" method="POST">
+        <textarea id="comment-input" name="content" placeholder="Write a comment"></textarea><br>
+        <button type="submit">Comment</button>
+    </form>
+
+    <!-- Socket.Io + variables for Real Time JS -->
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script>
+        window.ideaId = "{{ idea.id }}";
+        window.currentUser = "{{ session.username }}";
+        window.currentUserId = "{{ session.user_id }}";
+    </script>
+    <!-- Real Time comment logic -->
+    <script src="/static/idea.js"></script>
+{% endblock %}

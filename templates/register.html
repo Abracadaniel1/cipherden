@@ -1,0 +1,29 @@
+{% extends "layout.html "%}
+
+{% block title %}
+    Register - CipherDen
+{% endblock %}
+
+{% block content %}
+    <!-- Registration form -->
+    <h2>Register</h2>
+    <!-- POST to / register -->
+    <form action="/register" method="post">
+        <!-- Email and Username -->
+        <input name="email" type="text" placeholder="E-Mail">
+        <input name="username" type="text" placeholder="Username">
+        <!-- Password with client-side rule hints -->
+        <input id="password" name="password" type="password" placeholder="Password">
+
+        <!-- Visual checklist for password requirements -->
+        <ul id="password-rules">
+            <li id="rule-length">Min 8 characters</li>
+            <li id="rule-upper">At least 1 uppercase letter</li>
+            <li id="rule-lower">At least 1 lowercase letter</li>
+            <li id="rule-number">At least 1 number</li>
+        </ul>
+        <!-- Password Confirmation -->
+        <input name="confirmation" type="password" placeholder="Confirm password">
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}

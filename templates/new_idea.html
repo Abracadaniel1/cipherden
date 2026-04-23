@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <!-- New idea submission form -->
+    <h2>New Proposal</h2>
+    <!-- POST to create a new idea -->
+    <form action="/ideas/new" method="post">
+        <!-- Title -->
+        <input name="title" placeholder="Idea Title">
+        <!-- description -->
+        <textarea name="description" placeholder="Describe your idea"></textarea>
+        <!-- Category -->
+        <input name="category" placeholder="Category">
+        <!-- Initial Status -->
+        <select name="status">
+            <option value="idea">Idea</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed"> Completed</option>
+        </select>
+
+        <button type="submit">Create</button>
+    </form>
+{% endblock %}
