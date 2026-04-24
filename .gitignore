@@ -1,5 +1,6 @@
 # Virtual environment
 .venv/
+venv/
 
 # Enviroment files
 .env
@@ -13,3 +14,5 @@ __pycache__/
 
 # IDE
 .vscode/
+
+sqlite3.exe
