@@ -25,6 +25,14 @@ def init_socket(socketio):
     @socketio.on("run_code")
     def run_code(data):
         # Execute Python code on the server and returns output/error
+        emit(
+            "code_running",
+            {
+                "username": session.get("username")
+            },
+            to=str(data["session_id"])
+        )
+
         output, error = execute_python(data["code"])
 
         emit(

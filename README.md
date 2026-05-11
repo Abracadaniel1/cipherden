@@ -1,8 +1,16 @@
 # CipherDen - Community Idea Hub
 
+## Live Demo
+<p align="center">
+  <img src="static/assets/cipherDen.gif" width="800" />
+</p>
+<p align="center">
+  Real-time collaborative coding in action.
+</p>
+
 **CipherDen** is a lightweight community idea hub where developers share proposals, vote, comment and collaborate in real time via paired coding sessions with live chat and shared code execution.
 
-CipherDen aims to evolve into a collaborative coding arena where developers not only share ideas, but actively solve problems together in real-time.
+CipherDen aims to evolve into a collaborative coding arena where developers not only share ideas, but actively solve problems together in real-time through interactive coding sessions.
 
 ### Features
 - **User authentication** with session-based login and password hashing
@@ -12,21 +20,21 @@ CipherDen aims to evolve into a collaborative coding arena where developers not 
 - **Dev session matching** and session offers
 - **Real-time collaborative coding** using Socket.IO
 - **Live chat and typing indicator** inside sessions
-- **Transient flash messages**  and UI feedback
+- **Transient flash messages** and UI feedback
 
-----
+---
 
 ### Tech Stack
-**Backend**: Flask (Python)
-**Database**: SQLite (schema in `schema.sql`)
-**Frontend**: HTML, CSS, JavaScript; CodeMirror for the editor
-**Real-Time**: Flask-SocketIO
+- **Backend**: Flask (Python)
+- **Database**: SQLite (schema in `schema.sql`)
+- **Frontend**: HTML, CSS, JavaScript; CodeMirror for the editor
+- **Real-Time**: Flask-SocketIO
 
-----
+---
 
 ### Project Structure
 ```
-/CipherDen_Project
+/cipherden
     |---- app.py
     |---- helpers.py
     |---- init_db.py
@@ -40,7 +48,7 @@ CipherDen aims to evolve into a collaborative coding arena where developers not 
     |       |---- ideas.py
     |       |---- profile.py
     |       |---- session.py
-    |       |---- init.py
+    |       |---- __init__.py
     |
     |---- templates/
     |       |---- idea_detail.html
@@ -54,6 +62,16 @@ CipherDen aims to evolve into a collaborative coding arena where developers not 
     |       |---- session.html
     |
     |---- static/
+            |---- assets
+            |      |---- cipherDen.gif
+            |
+            |---- img
+            |      |---- Dark.PNG
+            |      |---- Light.PNG
+            |
+            |---- favicon
+            |      |---- cipherDenIcon.ico
+            |
             |---- css
             |      |---- base.css
             |      |---- components.css
@@ -114,7 +132,7 @@ python app.py
 - Session-based authentication
 - Protected routes via login_required decorator
 - Users can only modify their own content
-- Code execution is limited with a timeout(prevents infinite loops)
+- Code execution is limited with a timeout (prevents infinite loops)
 
 Note: In a production environment, code execution should be sandboxed for security
 
@@ -136,7 +154,7 @@ Make sure to set a secret key for sessions:
 
 - Disable Flask debug mode
 - Use a production server (e.g. gunicorn)
-- Replace SQLite with PostgresSQL or MySQL
+- Replace SQLite with PostgreSQL or MySQL
 - Secure cookies and environment variables
 - Sandbox code execution for safety
 
@@ -154,9 +172,9 @@ Make sure to set a secret key for sessions:
 
 ### Notes
 
-This project was built as learning project and focuses on:
+This project was built as a learning project and focuses on:
 
 - Full-Stack development with Flask
 - Real-Time features using WebSockets
-- Clean Modular structure
+- Clean modular structure
 - Practical collaboration tools for developers

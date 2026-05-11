@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Receive new comments from other users
   socket.on("receive_comment", (data) => {
+    const emptyMsg = document.getElementById("no-comments-msg");
+    if (emptyMsg) {
+      emptyMsg.remove();
+    }
+    
     addCommentToDOM(data);
   });
 

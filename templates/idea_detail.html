@@ -8,7 +8,7 @@
     <!-- Idea header: title, description, category, status -->
     <div class="idea-meta">
         <h2>{{ idea.title }}</h2>
-        <p>{{ idea.description }}</p>
+        <div class="idea-description">{{ idea.description }}</div>
         <p>
             <strong>Category:</strong> {{idea.category }} <br>
             <strong>Status:</strong>
@@ -83,7 +83,7 @@
             {% for comment in comments %}
                 <div class="comment">
                     <strong>{{ comment.username }}</strong> <br>
-                    {{ comment.content}}
+                    <div class="comment-content">{{ comment.content}}</div>
                 </div>
                 <hr>
                 <!-- Delete button only for comment owner -->
@@ -95,7 +95,7 @@
                     </form>
                 {% endif %}
             {% else %}
-                <p>No comments yet.</p>
+                <p id="no-comments-msg">No comments yet - be first to contribute 🚀</p>
             {% endfor %}
         </div>
     </div>

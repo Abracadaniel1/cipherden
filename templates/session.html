@@ -28,6 +28,7 @@
     <!-- Editor textarea -->
     <textarea
         id="editor"
+        placeholder="# Start coding here..."
         data-session="{{ dev_session.id }}"
         {% if dev_session.status == "closed" %} disabled {% endif %}
         >{{ dev_session.code }}</textarea>

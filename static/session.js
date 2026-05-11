@@ -116,10 +116,16 @@ function initConsole(editor, socket, sessionId) {
     if (!runBtn || !consoleBox)
         return;
 
+    socket.on("code_running", (data) => {
+        const time = new Date().toLocaleTimeString();
+
+        consoleBox.textContent += `\n[${time}] ${data.username} is running code...\n`;
+        consoleBox.scrollTop = consoleBox.scrollHeight;
+    });
+
     runBtn.onclick = () => {
         runBtn.disabled = true;
-
-        consoleBox.textContent += "\n> Running code...\n";
+        runBtn.textContent = "Running...";
         
         // Slight delay for smoother UX
         setTimeout(() => {
@@ -131,15 +137,21 @@ function initConsole(editor, socket, sessionId) {
 
         setTimeout(() => {
             runBtn.disabled = false;
+            runBtn.textContent = "Run";
         }, 1000);
     };
 
     // Append output from server
     socket.on("console_output", data => {
-        consoleBox.textContent +=
-            (data.output || "") +
-            (data.error || "") + "\n";
-        
+        if (data.output) {
+            consoleBox.textContent += data.output;
+        }
+
+        if (data.error) {
+            consoleBox.textContent += "Error: " + data.error;
+        }
+
+        consoleBox.textContent += "\n";
         consoleBox.scrollTop = consoleBox.scrollHeight;
     });
 }
@@ -157,7 +169,11 @@ function initChat(socket, sessionId) {
     // Add message to chat UI
     const addMessage = (user, text) => {
         const msg = document.createElement("div");
-        msg.innerHTML = `<strong>${user}:</strong> ${text}`;
+        const time = new Date().toLocaleTimeString();
+        const strong = document.createElement("strong");
+        strong.textContent = `[${time}] ${user}:`;
+        msg.appendChild(strong);
+        msg.appendChild(document.createTextNode(" " + text));
         chatBox.appendChild(msg);
         chatBox.scrollTop = chatBox.scrollHeight;
     };
@@ -207,7 +223,7 @@ function initChat(socket, sessionId) {
             socket.emit("stop_typing", { session_id: sessionId });
             isTyping = false;
 
-            clearTimeout(typingInterval);
+            clearInterval(typingInterval);
         }, 1500);
     });
 

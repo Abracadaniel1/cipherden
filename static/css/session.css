@@ -44,8 +44,8 @@
 #chat-box {
     background: var(--card-bg);
     height: 200px;
-    height: 200px;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 6px;
@@ -57,6 +57,9 @@
     padding: 4px 6px;
     border-radius: 4px;
     background: rgba(0, 0, 0, 0.03);
+    word-wrap: break-word;
+    overflow: break-word;
+    word-break: break-word;
 }
 
 /* Typing indicator */
