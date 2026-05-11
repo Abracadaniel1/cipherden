@@ -1,5 +1,7 @@
 # CipherDen - Community Idea Hub
 
+#### Video Demo: https://youtu.be/lsR10xJZC8c
+
 ## Live Demo
 <p align="center">
   <img src="static/assets/cipherDen.gif" width="800" />
