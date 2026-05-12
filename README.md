@@ -82,6 +82,7 @@ CipherDen aims to evolve into a collaborative coding arena where developers not 
             |      |---- session.css
             |      |---- theme.css
             |
+            |---- idea.js
             |---- script.js
             |---- session.js
 ```
