@@ -15,6 +15,15 @@ def ask_status(username):
 
     if not to_user:
         abort(404)
+    
+    current_user = db.execute("""
+        SELECT offers_status FROM users
+        WHERE id = ?
+    """, (session["user_id"],)).fetchone()
+
+    if not current_user or current_user["offers_status"] != 1:
+        flash("Enable collaboration status before sending requests.")
+        return redirect(request.referrer or "/")
 
     # Prevent duplicate pending requests
     existing_request = db.execute("""
